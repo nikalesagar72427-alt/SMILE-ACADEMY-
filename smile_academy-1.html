@@ -1,0 +1,959 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SMILE ACADEMY - Institute of English Excellence</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: white;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            z-index: 1000;
+            padding: 15px 0;
+        }
+
+        nav .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+            color: #333;
+        }
+
+        .logo-circle {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, #f97316 0%, #9333ea 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+            box-shadow: 0 4px 15px rgba(249, 115, 22, 0.3);
+        }
+
+        .logo-text h1 {
+            font-size: 22px;
+            background: linear-gradient(135deg, #f97316 0%, #9333ea 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .logo-text p {
+            font-size: 11px;
+            color: #666;
+        }
+
+        .nav-right {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+
+        .lang-btn {
+            padding: 8px 16px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .lang-btn.active {
+            background: linear-gradient(135deg, #f97316 0%, #f97316 100%);
+            color: white;
+        }
+
+        .lang-btn:not(.active) {
+            background: #f3f4f6;
+            color: #666;
+        }
+
+        .cta-btn {
+            background: linear-gradient(135deg, #f97316 0%, #f97316 100%);
+            color: white;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .cta-btn:hover {
+            box-shadow: 0 8px 20px rgba(249, 115, 22, 0.4);
+            transform: scale(1.05);
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, #fef3c7 0%, #f5f3ff 50%, #dbeafe 100%);
+            padding: 120px 20px 60px;
+            margin-top: 70px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, rgba(249, 115, 22, 0.1) 0%, transparent 70%);
+            border-radius: 50%;
+            top: -100px;
+            right: -100px;
+        }
+
+        .hero::after {
+            content: '';
+            position: absolute;
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, rgba(59, 130, 246, 0.1) 0%, transparent 70%);
+            border-radius: 50%;
+            bottom: -150px;
+            left: -150px;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 10;
+            text-align: center;
+        }
+
+        .hero-tag {
+            display: inline-block;
+            background: linear-gradient(135deg, #fed7aa 0%, #e9d5ff 100%);
+            padding: 12px 24px;
+            border-radius: 50px;
+            font-weight: bold;
+            color: #d97706;
+            margin-bottom: 20px;
+            font-size: 14px;
+        }
+
+        .hero h2 {
+            font-size: 56px;
+            margin-bottom: 20px;
+            line-height: 1.2;
+            background: linear-gradient(135deg, #dc2626 0%, #7c3aed 50%, #2563eb 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero p {
+            font-size: 20px;
+            color: #4b5563;
+            margin-bottom: 30px;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #f97316 0%, #f97316 100%);
+            color: white;
+            padding: 16px 40px;
+            border: none;
+            border-radius: 8px;
+            font-weight: bold;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn-primary:hover {
+            box-shadow: 0 10px 30px rgba(249, 115, 22, 0.4);
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary {
+            border: 2px solid #f97316;
+            color: #f97316;
+            padding: 14px 40px;
+            border-radius: 8px;
+            font-weight: bold;
+            font-size: 16px;
+            cursor: pointer;
+            background: transparent;
+            transition: all 0.3s;
+        }
+
+        .btn-secondary:hover {
+            background: #fef3c7;
+        }
+
+        /* Problem Section */
+        .problems {
+            padding: 80px 20px;
+            background: white;
+        }
+
+        .section-title {
+            font-size: 40px;
+            text-align: center;
+            margin-bottom: 50px;
+            color: #1f2937;
+            font-weight: bold;
+        }
+
+        .problems-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+        }
+
+        .problem-card {
+            padding: 30px;
+            border-radius: 12px;
+            border: 2px solid #fee2e2;
+            background: #fef2f2;
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+
+        .problem-card:hover {
+            border-color: #dc2626;
+            box-shadow: 0 10px 25px rgba(220, 38, 38, 0.1);
+        }
+
+        .problem-icon {
+            font-size: 48px;
+            margin-bottom: 15px;
+        }
+
+        .problem-card h4 {
+            font-size: 20px;
+            color: #b91c1c;
+            margin-bottom: 10px;
+        }
+
+        /* Solution Section */
+        .solution {
+            padding: 80px 20px;
+            background: linear-gradient(135deg, #f0fdf4 0%, #f0f9ff 100%);
+        }
+
+        .solution .section-title {
+            margin-bottom: 15px;
+        }
+
+        .solution-subtitle {
+            text-align: center;
+            font-size: 20px;
+            color: #4b5563;
+            margin-bottom: 50px;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+        }
+
+        .feature-card {
+            padding: 30px;
+            border-radius: 12px;
+            border: 2px solid #bbf7d0;
+            background: white;
+            transition: all 0.3s;
+        }
+
+        .feature-card:hover {
+            border-color: #15803d;
+            box-shadow: 0 10px 25px rgba(21, 128, 61, 0.1);
+        }
+
+        .feature-icon {
+            font-size: 40px;
+            margin-bottom: 15px;
+        }
+
+        .feature-card h4 {
+            font-size: 18px;
+            color: #1f2937;
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
+
+        /* Courses Section */
+        .courses {
+            padding: 80px 20px;
+            background: white;
+        }
+
+        .courses-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 25px;
+        }
+
+        .course-card {
+            border-radius: 12px;
+            padding: 40px;
+            color: white;
+            transition: all 0.3s;
+            cursor: pointer;
+            transform: translateY(0);
+        }
+
+        .course-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
+        }
+
+        .course-1 {
+            background: linear-gradient(135deg, #fb923c 0%, #ea580c 100%);
+        }
+
+        .course-2 {
+            background: linear-gradient(135deg, #60a5fa 0%, #1d4ed8 100%);
+        }
+
+        .course-3 {
+            background: linear-gradient(135deg, #a78bfa 0%, #7c3aed 100%);
+        }
+
+        .course-4 {
+            background: linear-gradient(135deg, #f472b6 0%, #ec4899 100%);
+        }
+
+        .course-card h3 {
+            font-size: 24px;
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
+
+        .course-desc {
+            font-size: 14px;
+            opacity: 0.9;
+            margin-bottom: 20px;
+        }
+
+        .course-topics {
+            list-style: none;
+        }
+
+        .course-topics li {
+            font-size: 14px;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        /* Benefits Section */
+        .benefits {
+            padding: 80px 20px;
+            background: linear-gradient(135deg, #fef3c7 0%, #f3e8ff 100%);
+        }
+
+        .benefits-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .benefit-item {
+            padding: 25px;
+            background: white;
+            border-radius: 12px;
+            border-left: 4px solid #f97316;
+            transition: all 0.3s;
+        }
+
+        .benefit-item:hover {
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            transform: translateX(5px);
+        }
+
+        /* Testimonials Section */
+        .testimonials {
+            padding: 80px 20px;
+            background: white;
+        }
+
+        .testimonials-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .testimonial-card {
+            padding: 30px;
+            border-radius: 12px;
+            border: 2px solid #dbeafe;
+            background: linear-gradient(135deg, #f0f9ff 0%, #f3e8ff 100%);
+            transition: all 0.3s;
+        }
+
+        .testimonial-card:hover {
+            box-shadow: 0 10px 30px rgba(59, 130, 246, 0.15);
+        }
+
+        .stars {
+            color: #fbbf24;
+            font-size: 18px;
+            margin-bottom: 15px;
+        }
+
+        .testimonial-text {
+            font-style: italic;
+            color: #4b5563;
+            margin-bottom: 15px;
+            line-height: 1.6;
+        }
+
+        .testimonial-name {
+            font-weight: bold;
+            color: #1f2937;
+            margin-bottom: 5px;
+        }
+
+        .testimonial-improvement {
+            color: #f97316;
+            font-weight: bold;
+            font-size: 14px;
+        }
+
+        /* Contact Section */
+        .contact {
+            padding: 80px 20px;
+            background: linear-gradient(135deg, #f97316 0%, #9333ea 100%);
+            color: white;
+            text-align: center;
+        }
+
+        .contact h2 {
+            font-size: 48px;
+            margin-bottom: 20px;
+            font-weight: bold;
+        }
+
+        .contact p {
+            font-size: 18px;
+            margin-bottom: 40px;
+            opacity: 0.95;
+        }
+
+        .contact-boxes {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
+        .contact-box {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            padding: 30px;
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .contact-box h3 {
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+
+        .contact-phone {
+            font-size: 28px;
+            font-weight: bold;
+            text-decoration: none;
+            color: white;
+        }
+
+        .contact-phone:hover {
+            opacity: 0.9;
+        }
+
+        .enroll-btn {
+            background: white;
+            color: #f97316;
+            padding: 16px 50px;
+            border: none;
+            border-radius: 8px;
+            font-weight: bold;
+            font-size: 18px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .enroll-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .contact-message {
+            font-size: 28px;
+            font-weight: bold;
+            margin-top: 40px;
+            font-style: italic;
+            opacity: 0.95;
+        }
+
+        /* Footer */
+        footer {
+            background: #111827;
+            color: #9ca3af;
+            padding: 40px 20px;
+            text-align: center;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            margin-bottom: 30px;
+            text-align: left;
+        }
+
+        .footer-section h5 {
+            color: white;
+            margin-bottom: 15px;
+            font-weight: bold;
+        }
+
+        .footer-section p {
+            font-size: 14px;
+            line-height: 1.8;
+        }
+
+        .footer-bottom {
+            border-top: 1px solid #374151;
+            padding-top: 30px;
+            font-size: 14px;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero h2 {
+                font-size: 36px;
+            }
+
+            .hero p {
+                font-size: 16px;
+            }
+
+            .section-title {
+                font-size: 30px;
+            }
+
+            nav .container {
+                flex-wrap: wrap;
+            }
+
+            .nav-right {
+                width: 100%;
+                margin-top: 10px;
+            }
+
+            .lang-btn {
+                font-size: 12px;
+                padding: 6px 12px;
+            }
+        }
+
+        /* Language Toggle */
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav>
+        <div class="container">
+            <a href="#" class="logo">
+                <div class="logo-circle">😊</div>
+                <div class="logo-text">
+                    <h1>SMILE ACADEMY</h1>
+                    <p id="nav-subtitle">English Excellence</p>
+                </div>
+            </a>
+            <div class="nav-right">
+                <button class="lang-btn active" onclick="setLanguage('en')">English</button>
+                <button class="lang-btn" onclick="setLanguage('mr')">मराठी</button>
+                <a href="#contact" class="cta-btn" id="nav-contact">Contact</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <div class="hero-tag" id="hero-tag">🎉 3 YEARS ANNIVERSARY</div>
+                <h2 id="hero-title">Transform English Fear Into Confidence</h2>
+                <p id="hero-subtitle">Your child is smart. Help them shine with fluent English speaking skills.</p>
+                <div class="hero-buttons">
+                    <button class="btn-primary" onclick="document.getElementById('contact').scrollIntoView({behavior: 'smooth'})" id="btn-demo">Free Demo Class</button>
+                    <button class="btn-secondary" onclick="document.getElementById('courses').scrollIntoView({behavior: 'smooth'})" id="btn-courses">View Programs</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Problems Section -->
+    <section class="problems">
+        <div class="container">
+            <h2 class="section-title" id="problem-title">Is Your Child Facing These Challenges?</h2>
+            <div class="problems-grid">
+                <div class="problem-card">
+                    <div class="problem-icon">😰</div>
+                    <h4 id="prob-1-title">Fear of English</h4>
+                    <p id="prob-1-desc">Hesitant to speak despite knowing answers</p>
+                </div>
+                <div class="problem-card">
+                    <div class="problem-icon">🤐</div>
+                    <h4 id="prob-2-title">Lack of Confidence</h4>
+                    <p id="prob-2-desc">Silent in class while other children participate</p>
+                </div>
+                <div class="problem-card">
+                    <div class="problem-icon">🏃</div>
+                    <h4 id="prob-3-title">Falling Behind</h4>
+                    <p id="prob-3-desc">Struggling due to poor English communication</p>
+                </div>
+                <div class="problem-card">
+                    <div class="problem-icon">📉</div>
+                    <h4 id="prob-4-title">Performance Issues</h4>
+                    <p id="prob-4-desc">Good in studies but weak in speaking</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Solution Section -->
+    <section class="solution">
+        <div class="container">
+            <h2 class="section-title" id="solution-title">The Smile Academy Solution</h2>
+            <p class="solution-subtitle" id="solution-subtitle">Proven Methods. Real Results. 100% Success Rate</p>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">✅</div>
+                    <h4 id="feat-1-title">Simple Learning Method</h4>
+                    <p id="feat-1-desc">English made easy, not complicated</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🗣️</div>
+                    <h4 id="feat-2-title">Daily Speaking Practice</h4>
+                    <p id="feat-2-desc">Build fluency through consistent practice</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">💪</div>
+                    <h4 id="feat-3-title">Error Correction</h4>
+                    <p id="feat-3-desc">Personalized feedback to build confidence</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">👥</div>
+                    <h4 id="feat-4-title">Individual Attention</h4>
+                    <p id="feat-4-desc">Every student gets personal focus</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🎯</div>
+                    <h4 id="feat-5-title">Flexible Batches</h4>
+                    <p id="feat-5-desc">Classes that fit your schedule</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🌟</div>
+                    <h4 id="feat-6-title">Personality Development</h4>
+                    <p id="feat-6-desc">Become confident in all situations</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Courses Section -->
+    <section class="courses" id="courses">
+        <div class="container">
+            <h2 class="section-title" id="courses-title">Our Programs</h2>
+            <p style="text-align: center; font-size: 18px; color: #666; margin-bottom: 50px;" id="courses-subtitle">Structured courses for every age and level</p>
+            <div class="courses-grid">
+                <div class="course-card course-1">
+                    <h3>Class 1-3</h3>
+                    <p class="course-desc">Foundation Building</p>
+                    <ul class="course-topics">
+                        <li>✓ Phonics</li>
+                        <li>✓ Spoken Grammar</li>
+                        <li>✓ Basic English</li>
+                        <li>✓ Word Strength</li>
+                    </ul>
+                </div>
+                <div class="course-card course-2">
+                    <h3>Class 4-7</h3>
+                    <p class="course-desc">Speaking Development</p>
+                    <ul class="course-topics">
+                        <li>✓ Spoken English</li>
+                        <li>✓ Grammar</li>
+                        <li>✓ Speaking Skills</li>
+                        <li>✓ Confidence</li>
+                    </ul>
+                </div>
+                <div class="course-card course-3">
+                    <h3>Class 8-10</h3>
+                    <p class="course-desc">Advanced Communication</p>
+                    <ul class="course-topics">
+                        <li>✓ Public Speaking</li>
+                        <li>✓ Interview Skills</li>
+                        <li>✓ Group Discussion</li>
+                        <li>✓ Personality</li>
+                    </ul>
+                </div>
+                <div class="course-card course-4">
+                    <h3>College & Above</h3>
+                    <p class="course-desc">Professional English</p>
+                    <ul class="course-topics">
+                        <li>✓ SMART English</li>
+                        <li>✓ Presentation</li>
+                        <li>✓ Business English</li>
+                        <li>✓ Leadership</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Benefits Section -->
+    <section class="benefits">
+        <div class="container">
+            <h2 class="section-title" id="benefits-title">What Your Child Will Achieve</h2>
+            <div class="benefits-grid">
+                <div class="benefit-item">✓ Speak English confidently in class</div>
+                <div class="benefit-item">✓ Answer questions without hesitation</div>
+                <div class="benefit-item">✓ Present on stage without fear</div>
+                <div class="benefit-item">✓ Improve academic performance</div>
+                <div class="benefit-item">✓ Build lasting self-confidence</div>
+                <div class="benefit-item">✓ Compete in interviews and group discussions</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section class="testimonials">
+        <div class="container">
+            <h2 class="section-title" id="testimonials-title">Success Stories from Parents</h2>
+            <div class="testimonials-grid">
+                <div class="testimonial-card">
+                    <div class="stars">★★★★★</div>
+                    <p class="testimonial-text" id="testi-1-text">"My daughter was afraid to speak. Now she answers in class confidently!"</p>
+                    <p class="testimonial-name" id="testi-1-name">Priya's Mother</p>
+                    <p class="testimonial-improvement" id="testi-1-imp">90% Improvement</p>
+                </div>
+                <div class="testimonial-card">
+                    <div class="stars">★★★★★</div>
+                    <p class="testimonial-text" id="testi-2-text">"His grades improved from C to A+ within 3 months. Excellent teaching!"</p>
+                    <p class="testimonial-name" id="testi-2-name">Rahul's Father</p>
+                    <p class="testimonial-improvement" id="testi-2-imp">2 Grade Jump</p>
+                </div>
+                <div class="testimonial-card">
+                    <div class="stars">★★★★★</div>
+                    <p class="testimonial-text" id="testi-3-text">"She now participates in school competitions fearlessly. Highly recommended!"</p>
+                    <p class="testimonial-name" id="testi-3-name">Sneha's Mother</p>
+                    <p class="testimonial-improvement" id="testi-3-imp">Confidence Boost</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section class="contact" id="contact">
+        <div class="container">
+            <h2 id="contact-title">Admission Open Now!</h2>
+            <p id="contact-subtitle">Start Your Child's Success Journey Today</p>
+
+            <div class="contact-boxes">
+                <div class="contact-box">
+                    <h3>📍 <span id="branch-1-label">Khandala Branch</span></h3>
+                    <p>Khandala (Vaijapur)</p>
+                    <p>431116, Maharashtra</p>
+                </div>
+                <div class="contact-box">
+                    <h3>📍 <span id="branch-2-label">Shivoor Branch</span></h3>
+                    <p>Shivoor (Vaijapur)</p>
+                    <p>431116, Maharashtra</p>
+                </div>
+                <div class="contact-box">
+                    <h3>📞 <span id="contact-phone-label">Phone</span></h3>
+                    <a href="tel:9209019891" class="contact-phone">9209019891</a>
+                    <p style="font-size: 14px; margin-top: 10px;" id="contact-call">Call Now</p>
+                </div>
+            </div>
+
+            <button class="enroll-btn" id="enroll-btn">Enroll Now</button>
+
+            <p class="contact-message" id="contact-message">"Today's decision... Your child's bright tomorrow!"</p>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h5>SMILE ACADEMY</h5>
+                <p id="footer-desc">Institute of English Excellence</p>
+                <p id="footer-years">3 Years of Transforming Lives</p>
+            </div>
+            <div class="footer-section">
+                <h5 id="footer-links">Quick Links</h5>
+                <p><a href="#courses" style="color: #9ca3af; text-decoration: none;">Programs</a></p>
+                <p><a href="#contact" style="color: #9ca3af; text-decoration: none;">Contact Us</a></p>
+            </div>
+            <div class="footer-section">
+                <h5 id="footer-location">Locations</h5>
+                <p><strong>📍 Khandala:</strong> Khandala (Vaijapur)<br>431116, Maharashtra</p>
+                <p style="margin-top: 10px;"><strong>📍 Shivoor:</strong> Shivoor (Vaijapur)<br>431116, Maharashtra</p>
+                <p style="margin-top: 10px;"><span style="color: #f97316; font-weight: bold;">📞 9209019891</span></p>
+            </div>
+        </div>
+        <div class="footer-bottom" id="footer-bottom">
+            &copy; 2024 Smile Academy. All rights reserved.
+        </div>
+    </footer>
+
+    <script>
+        const content = {
+            en: {
+                'hero-tag': '🎉 3 YEARS ANNIVERSARY CELEBRATION',
+                'hero-title': 'Transform English Fear Into Confidence',
+                'hero-subtitle': 'Your child is smart. Help them shine with fluent English speaking skills.',
+                'btn-demo': 'Free Demo Class',
+                'btn-courses': 'View Programs',
+                'problem-title': 'Is Your Child Facing These Challenges?',
+                'prob-1-title': 'Fear of English',
+                'prob-1-desc': 'Hesitant to speak despite knowing answers',
+                'prob-2-title': 'Lack of Confidence',
+                'prob-2-desc': 'Silent in class while other children participate',
+                'prob-3-title': 'Falling Behind',
+                'prob-3-desc': 'Struggling due to poor English communication',
+                'prob-4-title': 'Performance Issues',
+                'prob-4-desc': 'Good in studies but weak in speaking',
+                'solution-title': 'The Smile Academy Solution',
+                'solution-subtitle': 'Proven Methods. Real Results. 100% Success Rate',
+                'feat-1-title': 'Simple Learning Method',
+                'feat-1-desc': 'English made easy, not complicated',
+                'feat-2-title': 'Daily Speaking Practice',
+                'feat-2-desc': 'Build fluency through consistent practice',
+                'feat-3-title': 'Error Correction',
+                'feat-3-desc': 'Personalized feedback to build confidence',
+                'feat-4-title': 'Individual Attention',
+                'feat-4-desc': 'Every student gets personal focus',
+                'feat-5-title': 'Flexible Batches',
+                'feat-5-desc': 'Classes that fit your schedule',
+                'feat-6-title': 'Personality Development',
+                'feat-6-desc': 'Become confident in all situations',
+                'courses-title': 'Our Programs',
+                'courses-subtitle': 'Structured courses for every age and level',
+                'benefits-title': 'What Your Child Will Achieve',
+                'testimonials-title': 'Success Stories from Parents',
+                'contact-title': 'Admission Open Now!',
+                'contact-subtitle': 'Start Your Child\'s Success Journey Today',
+                'enroll-btn': 'Enroll Now',
+                'contact-message': '"Today\'s decision... Your child\'s bright tomorrow!"',
+                'nav-subtitle': 'English Excellence',
+                'nav-contact': 'Contact',
+                'branch-1-label': 'Khandala Branch',
+                'branch-2-label': 'Shivoor Branch'
+            },
+            mr: {
+                'hero-tag': '🎉 3 वर्षांचे यशस्वी प्रवास',
+                'hero-title': 'इंग्रजीची भीती दूर करा, आत्मविश्वास वाढवा',
+                'hero-subtitle': 'आपल्या मुलाला हुशार आहे. त्याला निखळ इंग्रजी बोलायला शिकवा.',
+                'btn-demo': 'फ्री डेमो क्लास',
+                'btn-courses': 'कोर्स पाहा',
+                'problem-title': 'आपल्या मुलाला या समस्या आहेत का?',
+                'prob-1-title': 'इंग्रजीची भीती',
+                'prob-1-desc': 'उत्तर माहित असूनही शांत बसतो',
+                'prob-2-title': 'आत्मविश्वासाचा अभाव',
+                'prob-2-desc': 'इतर मुले बोलत असताना मागे राहतो',
+                'prob-3-title': 'शैक्षणिक मागेपण',
+                'prob-3-desc': 'इंग्रजीमुळे मागे पडतो',
+                'prob-4-title': 'कमी अंक',
+                'prob-4-desc': 'हुशार असूनही कमी गुण मिळतात',
+                'solution-title': 'स्माइल अॅकडेमीचे उपाय',
+                'solution-subtitle': 'सिद्ध पद्धती. खरे परिणाम. 100% यश',
+                'feat-1-title': 'सोपी शिक्षण पद्धती',
+                'feat-1-desc': 'इंग्रजी सोप्या मार्गाने शिकवली जाते',
+                'feat-2-title': 'दैनिक बोलण्याचा सराव',
+                'feat-2-desc': 'रोज सराव करून निखळता वाढवा',
+                'feat-3-title': 'चुका सुधारणे',
+                'feat-3-desc': 'व्यक्तिगत प्रतिक्रिया आणि सुधार',
+                'feat-4-title': 'वैयक्तिक लक्ष',
+                'feat-4-desc': 'प्रत्येक मुलावर व्यक्तिगत ध्यान',
+                'feat-5-title': 'सोयीस्कर बॅच',
+                'feat-5-desc': 'आपल्या वेळेनुसार क्लास',
+                'feat-6-title': 'व्यक्तिमत्व विकास',
+                'feat-6-desc': 'सर्व परिस्थितीत आत्मविश्वास',
+                'courses-title': 'आमचे कोर्स',
+                'courses-subtitle': 'प्रत्येक वयस आणि स्तरासाठी संरचित कोर्स',
+                'benefits-title': 'आपल्या मुलाचे भविष्य',
+                'testimonials-title': 'पालकांचे सफलता गाथा',
+                'contact-title': 'प्रवेश खुला आहे!',
+                'contact-subtitle': 'आजच नोंदणी करा',
+                'enroll-btn': 'नोंदणी करा',
+                'contact-message': '"आजचा निर्णय... मुलाचं उद्याचं यश!"',
+                'nav-subtitle': 'इंग्रजी उत्कृष्टता',
+                'nav-contact': 'संपर्क',
+                'branch-1-label': 'खंडाला शाखा',
+                'branch-2-label': 'शिवूर शाखा'
+            }
+        };
+
+        function setLanguage(lang) {
+            document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+
+            Object.keys(content[lang]).forEach(id => {
+                const element = document.getElementById(id);
+                if (element) {
+                    element.textContent = content[lang][id];
+                }
+            });
+        }
+
+        // Set default language
+        setLanguage('en');
+    </script>
+</body>
+</html>
