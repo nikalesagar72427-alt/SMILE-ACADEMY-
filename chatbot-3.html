@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Smile Bot — AI English Tutor | Smile Academy</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Baloo+2:wght@700;800&family=Noto+Sans+Devanagari:wght@400;600;700&display=swap" rel="stylesheet"/>
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body {
+    background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 50%, #0f172a 100%);
+    min-height: 100vh;
+    font-family: 'Nunito', sans-serif;
+    display: flex; flex-direction: column; align-items: center;
+    padding: 16px;
+  }
+  .lang-mr { font-family: 'Noto Sans Devanagari', 'Nunito', sans-serif; }
+
+  /* Header */
+  .header {
+    width:100%; max-width:680px;
+    background: linear-gradient(135deg,#1e3a5f,#1e1b4b);
+    border-radius:20px; padding:18px 20px; margin-bottom:12px;
+    border:1px solid rgba(251,191,36,0.3);
+    box-shadow:0 8px 32px rgba(0,0,0,0.4);
+    display:flex; align-items:center; gap:14px;
+  }
+  .logo {
+    width:52px; height:52px; flex-shrink:0;
+    background:linear-gradient(135deg,#f59e0b,#d97706);
+    border-radius:50%; display:flex; align-items:center; justify-content:center;
+    font-size:26px; box-shadow:0 4px 16px rgba(245,158,11,0.4);
+  }
+  .header-title { font-family:'Baloo 2',cursive; font-size:20px; font-weight:800; color:#fbbf24; line-height:1.1; }
+  .header-sub { font-size:12px; color:rgba(255,255,255,0.55); margin-top:2px; }
+  .lang-btn {
+    margin-left:auto; flex-shrink:0;
+    background:rgba(245,158,11,0.1); border:1.5px solid rgba(245,158,11,0.4);
+    border-radius:20px; padding:6px 14px;
+    color:#fbbf24; font-weight:800; font-size:12px;
+    cursor:pointer; font-family:inherit; transition:all 0.2s;
+  }
+  .lang-btn:hover { background:rgba(245,158,11,0.2); }
+
+  /* Banner */
+  .lang-banner {
+    width:100%; max-width:680px;
+    border-radius:12px; padding:8px 16px; margin-bottom:12px;
+    display:flex; align-items:center; gap:10px;
+    font-size:12px; font-weight:600;
+  }
+  .lang-banner.en { background:rgba(59,130,246,0.1); border:1px solid rgba(59,130,246,0.25); color:#60a5fa; }
+  .lang-banner.mr { background:rgba(245,158,11,0.1); border:1px solid rgba(245,158,11,0.25); color:#fbbf24; }
+
+  /* Modes */
+  .modes {
+    width:100%; max-width:680px;
+    display:grid; grid-template-columns:repeat(4,1fr);
+    gap:8px; margin-bottom:12px;
+  }
+  .mode-btn {
+    border-radius:12px; padding:10px 4px;
+    cursor:pointer; font-family:inherit;
+    font-size:11px; transition:all 0.2s ease;
+    text-align:center; line-height:1.4; border:none;
+  }
+  .mode-btn.active {
+    background:linear-gradient(135deg,#f59e0b,#d97706);
+    color:#1e1b4b; font-weight:800;
+    box-shadow:0 4px 16px rgba(245,158,11,0.4);
+  }
+  .mode-btn.inactive {
+    background:rgba(255,255,255,0.06);
+    border:1px solid rgba(255,255,255,0.12);
+    color:rgba(255,255,255,0.7); font-weight:600;
+  }
+  .mode-emoji { font-size:18px; margin-bottom:2px; display:block; }
+
+  /* Chat */
+  .chat-window {
+    width:100%; max-width:680px;
+    background:rgba(255,255,255,0.04);
+    border:1px solid rgba(255,255,255,0.08);
+    border-radius:20px; overflow:hidden;
+    display:flex; flex-direction:column;
+    height:46vh; margin-bottom:10px;
+  }
+  .messages {
+    flex:1; overflow-y:auto; padding:20px 20px 8px;
+    display:flex; flex-direction:column; gap:12px;
+    scrollbar-width:thin; scrollbar-color:rgba(251,191,36,0.3) transparent;
+  }
+  .msg-row { display:flex; align-items:flex-end; gap:8px; animation:fadeUp 0.3s ease; }
+  .msg-row.user { justify-content:flex-end; }
+  .bot-avatar {
+    width:32px; height:32px; flex-shrink:0;
+    background:linear-gradient(135deg,#f59e0b,#d97706);
+    border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:16px;
+  }
+  .user-avatar {
+    width:32px; height:32px; flex-shrink:0;
+    background:linear-gradient(135deg,#3b82f6,#2563eb);
+    border-radius:50%; display:flex; align-items:center; justify-content:center;
+    font-size:10px; font-weight:800; color:white; text-align:center; padding:2px;
+  }
+  .bubble {
+    max-width:78%; padding:12px 16px; font-size:14px;
+    color:#ffffff; line-height:1.7;
+  }
+  .bubble.bot {
+    background:rgba(255,255,255,0.09);
+    border:1px solid rgba(255,255,255,0.08);
+    border-radius:18px 18px 18px 4px;
+  }
+  .bubble.user {
+    background:linear-gradient(135deg,#3b82f6,#2563eb);
+    border-radius:18px 18px 4px 18px;
+    box-shadow:0 4px 16px rgba(59,130,246,0.3);
+  }
+  .bubble strong { color:#fbbf24; font-weight:700; }
+
+  /* Typing */
+  .typing { display:flex; align-items:flex-end; gap:8px; }
+  .typing-dots {
+    background:rgba(255,255,255,0.09);
+    border:1px solid rgba(255,255,255,0.08);
+    border-radius:18px 18px 18px 4px;
+    padding:14px 18px; display:flex; gap:4px; align-items:center;
+  }
+  .dot {
+    width:7px; height:7px; background:#f59e0b;
+    border-radius:50%; animation:bounce 1s ease infinite;
+  }
+  .dot:nth-child(2) { animation-delay:0.2s; }
+  .dot:nth-child(3) { animation-delay:0.4s; }
+
+  /* Starters */
+  .starters {
+    width:100%; max-width:680px;
+    display:flex; gap:6px; flex-wrap:wrap; margin-bottom:10px;
+  }
+  .starter-btn {
+    background:rgba(245,158,11,0.1); border:1px solid rgba(245,158,11,0.25);
+    border-radius:20px; padding:6px 14px; font-size:12px; color:#fbbf24;
+    cursor:pointer; font-family:inherit; font-weight:600; transition:all 0.2s;
+  }
+  .starter-btn:disabled { opacity:0.5; cursor:not-allowed; }
+  .starter-btn:hover:not(:disabled) { background:rgba(245,158,11,0.2); }
+
+  /* Input */
+  .input-row {
+    width:100%; max-width:680px;
+    display:flex; gap:10px;
+    background:rgba(255,255,255,0.06);
+    border:1px solid rgba(255,255,255,0.12);
+    border-radius:16px; padding:8px 8px 8px 16px; align-items:center;
+  }
+  .chat-input {
+    flex:1; background:transparent; border:none; outline:none;
+    color:#fff; font-size:14px; font-family:inherit;
+  }
+  .chat-input::placeholder { color:rgba(255,255,255,0.3); }
+  .send-btn {
+    background:linear-gradient(135deg,#f59e0b,#d97706);
+    border:none; border-radius:12px; width:44px; height:44px;
+    display:flex; align-items:center; justify-content:center;
+    cursor:pointer; font-size:20px; transition:all 0.2s; flex-shrink:0;
+    box-shadow:0 4px 12px rgba(245,158,11,0.4);
+  }
+  .send-btn:disabled {
+    background:rgba(245,158,11,0.3); cursor:not-allowed; box-shadow:none;
+  }
+
+  .footer {
+    margin-top:10px; font-size:11px;
+    color:rgba(255,255,255,0.2); text-align:center;
+  }
+
+  @keyframes bounce { 0%,60%,100%{transform:translateY(0)} 30%{transform:translateY(-6px)} }
+  @keyframes fadeUp { from{opacity:0;transform:translateY(10px)} to{opacity:1;transform:translateY(0)} }
+  ::-webkit-scrollbar{width:4px}
+  ::-webkit-scrollbar-track{background:transparent}
+  ::-webkit-scrollbar-thumb{background:rgba(251,191,36,0.3);border-radius:4px}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="logo">😊</div>
+  <div>
+    <div class="header-title" id="headerTitle">Smile Academy</div>
+    <div class="header-sub" id="headerSub">AI English Tutor • Smart Practice for Every Student</div>
+  </div>
+  <button class="lang-btn" id="langBtn" onclick="toggleLang()">मराठी</button>
+</div>
+
+<div class="lang-banner en" id="langBanner">
+  <span style="font-size:18px">🇬🇧</span>
+  <span id="bannerText">English Mode Active — Switch to 🌐 मराठी for bilingual responses</span>
+</div>
+
+<div class="modes" id="modesGrid"></div>
+
+<div class="chat-window">
+  <div class="messages" id="messages"></div>
+</div>
+
+<div class="starters" id="starters"></div>
+
+<div class="input-row">
+  <input class="chat-input" id="chatInput" placeholder="Type your question here..."
+    onkeydown="if(event.key==='Enter')sendMessage()"/>
+  <button class="send-btn" id="sendBtn" onclick="sendMessage()" disabled>➤</button>
+</div>
+
+<div class="footer" id="footer">Smile Academy • Khandala & Shivoor, Aurangabad • Powered by AI</div>
+
+<script>
+const LANG_DATA = {
+  en: {
+    headerTitle: 'Smile Academy',
+    headerSub: 'AI English Tutor • Smart Practice for Every Student',
+    toggleBtn: 'मराठी',
+    bannerClass: 'lang-banner en',
+    bannerText: 'English Mode Active — Switch to 🌐 मराठी for bilingual responses',
+    bannerIcon: '🇬🇧',
+    footer: 'Smile Academy • Khandala & Shivoor, Aurangabad • Powered by AI',
+    welcome: "Namaste! 🙏 I'm **Smile Bot**, your personal English tutor from Smile Academy. Choose a practice mode above and let's start learning!",
+    you: 'You',
+    errorMsg: '⚠️ Network error. Please check your connection and try again.',
+    modes: [
+      { id:'conversation', emoji:'💬', label:'Conversation', desc:'Free English chat practice' },
+      { id:'grammar',      emoji:'📝', label:'Grammar Help', desc:'Fix & learn grammar' },
+      { id:'vocabulary',   emoji:'📚', label:'Vocabulary',   desc:'Learn new words' },
+      { id:'pronunciation',emoji:'🎤', label:'Pronunciation', desc:'Phonetics & tips' },
+    ],
+    starters: {
+      conversation: ['Hello! How are you today?','Tell me about your school.','What is your favourite subject?'],
+      grammar:      ['Check: She don\'t know the answer.','What is present perfect tense?','Is this correct: I am going to market yesterday?'],
+      vocabulary:   ['Teach me the word: Eloquent','Words related to: Education','What does \'persevere\' mean?'],
+      pronunciation:['How to say: Comfortable','Practice words with \'th\' sound','How to say: Wednesday'],
+    },
+    placeholder: { conversation:'Type your question here...', grammar:'Type a sentence to check...', vocabulary:'Type a word or topic...', pronunciation:'Type a word to pronounce...' },
+    modeSwitch: (label, desc) => `Switched to **${label}** mode! ${desc}. Try a suggestion below or type your own! 😊`,
+    prompts: {
+      conversation:`You are "Smile Bot", a friendly encouraging English tutor at Smile Academy, Maharashtra. Keep replies 2-4 sentences. Correct errors kindly in **bold**. Add a follow-up question. Use "Great effort!", "Well done!". If student uses Marathi, gently encourage English.`,
+      grammar:`You are "Smile Bot", grammar expert at Smile Academy. Identify errors, explain rule simply (2-3 lines), show corrected version in **bold**, give one practice sentence. Be encouraging.`,
+      vocabulary:`You are "Smile Bot", vocabulary tutor at Smile Academy. Give meaning in simple English, add Marathi equivalent in parentheses, show 2 example sentences, suggest one related word. Keep it fun.`,
+      pronunciation:`You are "Smile Bot", pronunciation guide at Smile Academy. Break words into syllables (e.g. beau·ti·ful), give phonetic hints, note common Indian English mistakes kindly, give 2-3 practice words.`,
+    }
+  },
+  mr: {
+    headerTitle: 'स्माईल अकॅडमी',
+    headerSub: 'AI इंग्रजी शिक्षक • प्रत्येक विद्यार्थ्यासाठी स्मार्ट सराव',
+    toggleBtn: 'English',
+    bannerClass: 'lang-banner mr',
+    bannerText: 'मराठी मोड सक्रिय — बॉट मराठी + English दोन्हीत उत्तर देईल',
+    bannerIcon: '🇮🇳',
+    footer: 'स्माईल अकॅडमी • खांदाळा व शिवूर, औरंगाबाद • AI द्वारे संचालित',
+    welcome: "नमस्ते! 🙏 मी **स्माईल बॉट** आहे, Smile Academy चा तुमचा वैयक्तिक इंग्रजी शिक्षक. वरून सराव मोड निवडा आणि शिकायला सुरुवात करा!",
+    you: 'तुम्ही',
+    errorMsg: '⚠️ नेटवर्क त्रुटी. कृपया इंटरनेट तपासा आणि पुन्हा प्रयत्न करा.',
+    modes: [
+      { id:'conversation', emoji:'💬', label:'संभाषण',    desc:'मुक्त इंग्रजी संवाद सराव' },
+      { id:'grammar',      emoji:'📝', label:'व्याकरण',   desc:'चुका सुधारा व शिका' },
+      { id:'vocabulary',   emoji:'📚', label:'शब्दसंग्रह', desc:'नवीन शब्द शिका' },
+      { id:'pronunciation',emoji:'🎤', label:'उच्चार',    desc:'उच्चार व टिप्स' },
+    ],
+    starters: {
+      conversation: ['नमस्ते! आज कसे आहात?','तुमच्या शाळेबद्दल सांगा.','तुमचा आवडता विषय कोणता आहे?'],
+      grammar:      ['तपासा: She don\'t know the answer.','Present perfect tense म्हणजे काय?','हे बरोबर आहे का: I am going yesterday?'],
+      vocabulary:   ['\'Eloquent\' शब्द शिकवा','शिक्षण संबंधित शब्द सांगा','\'Persevere\' चा अर्थ काय?'],
+      pronunciation:['\'Comfortable\' कसे म्हणतात?','\'Th\' आवाजाचा सराव','\'Wednesday\' कसे उच्चारतात?'],
+    },
+    placeholder: { conversation:'इथे तुमचा प्रश्न टाइप करा...', grammar:'व्याकरण तपासण्यासाठी वाक्य टाइप करा...', vocabulary:'शब्द किंवा विषय टाइप करा...', pronunciation:'उच्चार शिकण्यासाठी शब्द टाइप करा...' },
+    modeSwitch: (label, desc) => `**${label}** मोडवर आलो! ${desc}. खालील सुचवणी निवडा किंवा स्वतः टाइप करा! 😊`,
+    prompts: {
+      conversation:`तुम्ही "स्माईल बॉट" आहात, Smile Academy, महाराष्ट्रातील मैत्रीपूर्ण इंग्रजी शिक्षक. उत्तर दोन भागात द्या: आधी मराठीत स्पष्टीकरण, मग English मध्ये उत्तर. चुका **ठळक** अक्षरात दाखवा. एक प्रश्न विचारा. "छान प्रयत्न!", "शाब्बास!" वापरा.`,
+      grammar:`तुम्ही "स्माईल बॉट" आहात, Smile Academy चे व्याकरण तज्ञ. मराठीत स्पष्टीकरण द्या, **ठळक** अक्षरात बरोबर वाक्य दाखवा, एक सराव वाक्य द्या. उत्साहवर्धक राहा.`,
+      vocabulary:`तुम्ही "स्माईल बॉट" आहात, Smile Academy चे शब्दसंग्रह शिक्षक. अर्थ आधी मराठीत, मग English मध्ये सांगा. मराठी समांतर शब्द द्या. २ उदाहरण वाक्ये द्या.`,
+      pronunciation:`तुम्ही "स्माईल बॉट" आहात, Smile Academy चे उच्चार शिक्षक. मराठीत स्पष्ट करा, अक्षरे विभागून दाखवा, सामान्य चुका सांगा, २-३ सराव शब्द द्या.`,
+    }
+  }
+};
+
+let lang = 'en';
+let mode = 'conversation';
+let messages = [];
+let loading = false;
+
+function getLang() { return LANG_DATA[lang]; }
+
+function init() {
+  const d = getLang();
+  document.getElementById('headerTitle').textContent = d.headerTitle;
+  document.getElementById('headerSub').textContent = d.headerSub;
+  document.getElementById('langBtn').textContent = '🌐 ' + d.toggleBtn;
+  document.getElementById('footer').textContent = d.footer;
+  const banner = document.getElementById('langBanner');
+  banner.className = d.bannerClass;
+  document.getElementById('bannerText').innerHTML = d.bannerIcon + ' ' + d.bannerText;
+  document.body.style.fontFamily = lang === 'mr' ? "'Noto Sans Devanagari','Nunito',sans-serif" : "'Nunito',sans-serif";
+  renderModes();
+  renderStarters();
+  updatePlaceholder();
+  if (messages.length === 0) {
+    messages = [{ role:'assistant', content: d.welcome }];
+  }
+  renderMessages();
+}
+
+function renderModes() {
+  const d = getLang();
+  const grid = document.getElementById('modesGrid');
+  grid.innerHTML = d.modes.map(m => `
+    <button class="mode-btn ${m.id === mode ? 'active' : 'inactive'}" onclick="switchMode('${m.id}')">
+      <span class="mode-emoji">${m.emoji}</span>${m.label}
+    </button>
+  `).join('');
+}
+
+function renderStarters() {
+  const d = getLang();
+  const div = document.getElementById('starters');
+  div.innerHTML = d.starters[mode].map(s => `
+    <button class="starter-btn" onclick="sendMessage('${s.replace(/'/g,"\\'")}')">
+      ${s}
+    </button>
+  `).join('');
+  if (loading) div.querySelectorAll('button').forEach(b => b.disabled = true);
+}
+
+function updatePlaceholder() {
+  document.getElementById('chatInput').placeholder = getLang().placeholder[mode];
+}
+
+function renderMessages() {
+  const d = getLang();
+  const el = document.getElementById('messages');
+  el.innerHTML = messages.map(m => {
+    const isUser = m.role === 'user';
+    const content = m.content.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+    if (isUser) {
+      return `<div class="msg-row user">
+        <div class="bubble user">${content}</div>
+        <div class="user-avatar">${d.you}</div>
+      </div>`;
+    } else {
+      return `<div class="msg-row">
+        <div class="bot-avatar">😊</div>
+        <div class="bubble bot">${content}</div>
+      </div>`;
+    }
+  }).join('');
+  if (loading) {
+    el.innerHTML += `<div class="typing">
+      <div class="bot-avatar">😊</div>
+      <div class="typing-dots">
+        <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+      </div>
+    </div>`;
+  }
+  el.scrollTop = el.scrollHeight;
+}
+
+function switchMode(newMode) {
+  mode = newMode;
+  const d = getLang();
+  const m = d.modes.find(x => x.id === newMode);
+  messages = [{ role:'assistant', content: d.modeSwitch(m.label, m.desc) }];
+  renderModes();
+  renderStarters();
+  updatePlaceholder();
+  renderMessages();
+}
+
+function toggleLang() {
+  lang = lang === 'en' ? 'mr' : 'en';
+  mode = 'conversation';
+  messages = [];
+  init();
+}
+
+async function sendMessage(text) {
+  const input = document.getElementById('chatInput');
+  const userText = text || input.value.trim();
+  if (!userText || loading) return;
+  input.value = '';
+
+  messages.push({ role:'user', content: userText });
+  loading = true;
+  document.getElementById('sendBtn').disabled = true;
+  document.querySelectorAll('.starter-btn').forEach(b => b.disabled = true);
+  renderMessages();
+
+  try {
+    const d = getLang();
+    const apiMessages = messages.map(m => ({
+      role: m.role,
+      content: m.content.replace(/\*\*(.*?)\*\*/g, '$1')
+    }));
+    const res = await fetch('https://api.anthropic.com/v1/messages', {
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({
+        model:'claude-sonnet-4-20250514',
+        max_tokens:1000,
+        system: d.prompts[mode],
+        messages: apiMessages
+      })
+    });
+    const data = await res.json();
+    const reply = data.content?.[0]?.text || (lang==='mr' ? 'माफ करा, पुन्हा प्रयत्न करा!' : 'Sorry, please try again!');
+    messages.push({ role:'assistant', content: reply });
+  } catch(e) {
+    messages.push({ role:'assistant', content: getLang().errorMsg });
+  } finally {
+    loading = false;
+    document.getElementById('sendBtn').disabled = false;
+    renderStarters();
+    renderMessages();
+  }
+}
+
+document.getElementById('chatInput').addEventListener('input', function() {
+  document.getElementById('sendBtn').disabled = !this.value.trim() || loading;
+});
+
+init();
+</script>
+</body>
+</html>
